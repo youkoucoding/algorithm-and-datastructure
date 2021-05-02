@@ -134,6 +134,7 @@ export default class DoublyLinkedList {
    * @param {*} findParams.value
    * @param {function} [findParams.callback]
    * @return {DoublyLinkedListNode}
+   * 此函数的参数，传递的是引用类型即 内存地址，因此函数的作用会反映在原始对象上
    */
   find({ value = undefined, callback = undefined }) {  // 对象传递参数，在函数内部修改对象的属性就会修改其初始的值 （引用类型值（存储在heap中的对象））
     if (!this.head) {
@@ -227,6 +228,7 @@ export default class DoublyLinkedList {
    * @return {DoublyLinkedList}
    */
   fromArray(values) {
+    // 调用此类中定义的 append 方法
     values.forEach((value) => this.append(value));
 
     return this;
@@ -237,6 +239,7 @@ export default class DoublyLinkedList {
    * @return {string}
    */
   toString(callback) {
+    // 调用此类中定义的 toArray 方法
     return this.toArray().map((node) => node.toString(callback)).toString();
   }
 
@@ -258,7 +261,7 @@ export default class DoublyLinkedList {
       currNode.next = prevNode;
       currNode.previous = nextNode;
 
-      // Move prevNode and currNode nodes one step forward.
+      // Move prevNode and currNode nodes one step forward. 重点：交换前后指针之后，下一个‘操作数’为：前一个节点(反复进行)
       prevNode = currNode;
       currNode = nextNode;
     }
